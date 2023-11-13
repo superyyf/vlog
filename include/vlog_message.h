@@ -16,10 +16,10 @@ enum class log_level {
     LV_VERBOSE
 };
     
-class message : public std::ostream {
+class Message : public std::ostream {
 public:
-    message(log_level _level);
-    ~message();
+    Message(log_level _level);
+    ~Message();
 
 private:
     class buffer : public std::streambuf {
@@ -36,10 +36,10 @@ private:
 };
 }
 
-#define VLOG_ERROR      vlog::message(vlog::log_level::LV_ERROR)
-#define VLOG_WARNING    vlog::message(vlog::log_level::LV_WARNING)
-#define VLOG_INFO       vlog::message(vlog::log_level::LV_INFO)
-#define VLOG_DEBUG      vlog::message(vlog::log_level::LV_DEBUG)
-#define VLOG_VERBOSE    vlog::message(vlog::log_level::LV_VERBOSE)
+#define VLOG_ERROR      vlog::Message(vlog::log_level::LV_ERROR)
+#define VLOG_WARNING    vlog::Message(vlog::log_level::LV_WARNING)
+#define VLOG_INFO       vlog::Message(vlog::log_level::LV_INFO)
+#define VLOG_DEBUG      vlog::Message(vlog::log_level::LV_DEBUG)
+#define VLOG_VERBOSE    vlog::Message(vlog::log_level::LV_VERBOSE)
 
 #endif // !VLOG_MESSAGE_H_

@@ -5,9 +5,9 @@
 namespace vlog
 {
 
-std::mutex message::mutex_;
+std::mutex Message::mutex_;
 
-message::message(log_level _level)
+Message::Message(log_level _level)
     : buffer_()
     , std::ostream(&buffer_)
     , level_(_level) {
@@ -15,7 +15,8 @@ message::message(log_level _level)
     
 }
 
-message::~message() try {
+Message::~Message() try {
+    std::lock_guard<std::mutex> lock(mutex_);
     const char *its_level;
     switch (level_) {
         case log_level::LV_ERROR:
@@ -57,11 +58,11 @@ message::~message() try {
         << std::endl;
 
 } catch (const std::exception& e) {
-    std::cout <<"\nvlog: Error destroying message class: " << e.what() << '\n';
+    std::cout <<"\nvlog: Error destroying Message class: " << e.what() << '\n';
 }
 
 std::streambuf:: int_type 
-message::buffer::overflow(std:: streambuf::int_type c) {
+Message::buffer::overflow(std:: streambuf::int_type c) {
     if(c != EOF) {
         data_ << (char)c;
     }
@@ -70,7 +71,7 @@ message::buffer::overflow(std:: streambuf::int_type c) {
 }
 
 std::streamsize
-message::buffer::xsputn(const char *s, std::streamsize n) {
+Message::buffer::xsputn(const char *s, std::streamsize n) {
     data_.write(s, n);
     return n;
 }

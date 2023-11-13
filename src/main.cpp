@@ -3,6 +3,6 @@
 
 int main(){
 
-    VLOG_ERROR << "it is a error message";
+    VLOG_ERROR << "it is a error Message";
     
 }
